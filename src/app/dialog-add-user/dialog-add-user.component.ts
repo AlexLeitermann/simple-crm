@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, Inject, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
     MatDialogActions,
@@ -16,6 +16,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { User } from '../../models/user.class';
 import { addDoc, collection, Firestore, FirestoreModule } from '@angular/fire/firestore';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-dialog-add-user',
@@ -31,14 +32,18 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
         MatDatepickerModule,
         FirestoreModule,
         MatProgressBarModule,
+        CommonModule,
     ],
     providers: [],
     templateUrl: './dialog-add-user.component.html',
     styleUrl: './dialog-add-user.component.scss'
 })
 export class DialogAddUserComponent {
+    constructor(
+        public dialogRef: MatDialogRef<DialogAddUserComponent>
+    ) {}
 
-    loading = true;
+    loading = false;
     user = new User();
     birthDate = new Date;
 
@@ -48,15 +53,27 @@ export class DialogAddUserComponent {
     async saveUser() {
         this.loading = true;
         this.user.birthDate = this.birthDate.getTime();
-        await addDoc(collection(this.fs, 'users'), this.user.toJSON())
+        await addDoc(collection(this.fs, 'users'), this.userToJSON())
             .catch(
                 (err) => { console.error(err) }
             ).then((docRef) => { 
                 this.loading = false;
-                
                 console.log('user', this.user); 
+                this.dialogRef.close();
             }
         )
+    }
+
+    userToJSON() {
+        return {
+            firstName: this.user.firstName,
+            lastName: this.user.lastName,
+            birthDate: this.user.birthDate,
+            address: this.user.address,
+            zipCode: this.user.zipCode,
+            city: this.user.city,
+            email: this.user.email,
+        }
     }
 
 }

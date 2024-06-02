@@ -1,4 +1,19 @@
-<p>user works!</p>
+<mat-card>
+    <mat-card-content>
+        <table class="users-list">
+            <tr>
+                <th>Name</th>
+                <th>E-Mail</th>
+                <th>City</th>
+            </tr>
+            <tr *ngFor="let item of items$ | async">
+                <td>{{ item.firstName }} {{ item.lastName }}</td>
+                <td>{{ item.email }}</td>
+                <td>{{ item.city }}</td>
+            </tr>
+        </table>
+    </mat-card-content>
+</mat-card>
 
 <div class="add-user-container">
     <button mat-fab color="primary" (click)="openDialog()" matTooltip="Add new User" [matTooltipShowDelay]="1000" [matTooltipHideDelay]="2000">

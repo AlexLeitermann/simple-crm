@@ -1,4 +1,4 @@
-.mag-drawer-container {
+.mat-drawer-container {
     height: 100vh;
 }
 
@@ -15,7 +15,11 @@
         padding-right: 16px;
         box-sizing: border-box;
         display: flex;
+        justify-content: center;
         align-items: center;
+        .main-logo {
+            height: 42px;
+        }
     }
 }
 
@@ -58,4 +62,5 @@ ul {
 .router-container {
     padding-top: 16px;
     padding-left: 56px;
+    padding-right: 56px;
 }

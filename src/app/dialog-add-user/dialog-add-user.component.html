@@ -6,15 +6,13 @@
         <div class="mb-8">
             <mat-form-field class="mr-16" appearance="outline">
                 <mat-label>First Name</mat-label>
-                <input [(ngModel)]="user.firstName" [disabled]="loading" matInput placeholder="First Name" required>
+                <input [(ngModel)]="user.firstName" [disabled]="loading" matInput placeholder="First Name" required pattern="[a-zA-ZäÄöÖüÜß .\-]{2,}">
                 <!-- <mat-icon matSuffix>clear</mat-icon> -->
-                <!-- <mat-hint>First Name</mat-hint> -->
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label>Last Name</mat-label>
-                <input [(ngModel)]="user.lastName" [disabled]="loading" matInput placeholder="Last name" required>
+                <input [(ngModel)]="user.lastName" [disabled]="loading" matInput placeholder="Last name" required pattern="[a-zA-ZäÄöÖüÜß .\-]{2,}">
                 <!-- <mat-icon matSuffix>clear</mat-icon> -->
-                <!-- <mat-hint>Last Name</mat-hint> -->
             </mat-form-field>
         </div>
         <div class="mb-8">
@@ -28,29 +26,33 @@
         </div>
         <div>
             <mat-form-field class="mr-16 wth-100" appearance="outline">
-                <mat-label>Address</mat-label>
-                <input [(ngModel)]="user.address" [disabled]="loading" matInput placeholder="Street + House-No." required>
+                <mat-label>E-Mail</mat-label>
+                <input [(ngModel)]="user.email" [disabled]="loading" matInput placeholder="Valid E-Mail" required pattern="[a-zA-Z0-9\.!%_\+\-]{1,64}[@][a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,6}">
                 <!-- <mat-icon matSuffix>clear</mat-icon> -->
-                <!-- <mat-hint>First Name</mat-hint> -->
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field class="mr-16 wth-100" appearance="outline">
+                <mat-label>Address</mat-label>
+                <input [(ngModel)]="user.address" [disabled]="loading" matInput placeholder="Street + House-No." required pattern="[a-zA-ZäÄöÖüÜß0-9 .,\-]{4,}">
+                <!-- <mat-icon matSuffix>clear</mat-icon> -->
             </mat-form-field>
         </div>
         <div>
             <mat-form-field class="mr-16" appearance="outline">
                 <mat-label>Zip code</mat-label>
-                <input [(ngModel)]="user.zipCode" [disabled]="loading" matInput placeholder="Zip code" required>
+                <input [(ngModel)]="user.zipCode" [disabled]="loading" matInput placeholder="Zip code" required pattern="[0-9]{4,5}">
                 <!-- <mat-icon matSuffix>clear</mat-icon> -->
-                <!-- <mat-hint>First Name</mat-hint> -->
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label>City</mat-label>
-                <input [(ngModel)]="user.city" [disabled]="loading" matInput placeholder="City" required>
+                <input [(ngModel)]="user.city" [disabled]="loading" matInput placeholder="City" required pattern="[a-zA-ZäÄöÖüÜß \-]{3,}">
                 <!-- <mat-icon matSuffix>clear</mat-icon> -->
-                <!-- <mat-hint>First Name</mat-hint> -->
             </mat-form-field>
         </div>
     </mat-dialog-content>
     <mat-dialog-actions>
         <button mat-button mat-dialog-close>Close</button>
-        <button mat-button cdkFocusInitial [disabled]="loading" (click)="saveUser()">Save</button>
+        <button mat-button [disabled]="loading" (click)="saveUser()">Save</button>
     </mat-dialog-actions>
 </div>
