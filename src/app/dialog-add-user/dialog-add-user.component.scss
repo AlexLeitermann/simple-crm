@@ -1,0 +1,7 @@
+.user-dialog-container {
+    position: relative;
+    mat-progress-bar {
+        position: absolute;
+        inset: 0;
+    }
+}
