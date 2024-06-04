@@ -6,7 +6,7 @@
                 <th>E-Mail</th>
                 <th>City</th>
             </tr>
-            <tr *ngFor="let item of items$ | async">
+            <tr *ngFor="let item of allUsers" routerLink="{{'/user/' + item.id}}">
                 <td>{{ item.firstName }} {{ item.lastName }}</td>
                 <td>{{ item.email }}</td>
                 <td>{{ item.city }}</td>

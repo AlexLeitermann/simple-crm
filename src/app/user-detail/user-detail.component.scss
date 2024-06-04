@@ -1,0 +1,50 @@
+.user-detail-header {
+    position: relative;
+    background-color: #15AEEB;
+    height: 250px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: flex-end;
+    .option {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+    }
+    .user-detail-header-content {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        .user-detail-avatar {
+            width: 100px;
+            height: 100px;
+            margin-right: 32px;
+        }
+        .user-detail-name {
+            // font-size: 48px;
+            color: #fff;
+            h2 {
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
+.user-detail-address {
+    position: relative;
+    margin-top: 32px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    mat-card-header {
+        margin-bottom: 16px;
+        padding-bottom: 16px;
+        border-radius: 10px 10px 0 0;
+        background-color: #f47961;
+        color: #fff;
+    }
+    .option {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+    }
+}

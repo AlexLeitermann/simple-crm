@@ -1,0 +1,35 @@
+<div class="user-dialog-container">
+    <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+    <h2 mat-dialog-title>Edit User</h2>
+    <mat-dialog-content class="mb-8">
+        <div class="mb-8 mt-8">
+            <mat-form-field class="mr-16" appearance="outline">
+                <mat-label>First Name</mat-label>
+                <input [(ngModel)]="user.firstName" [disabled]="loading" matInput placeholder="First Name" required pattern="[a-zA-ZäÄöÖüÜß .\-]{2,}" value="{{ user.firstName }}">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Last Name</mat-label>
+                <input [(ngModel)]="user.lastName" [disabled]="loading" matInput placeholder="Last name" required pattern="[a-zA-ZäÄöÖüÜß .\-]{2,}" value="{{ user.lastName }}">
+            </mat-form-field>
+        </div>
+        <div class="mb-8">
+            <mat-form-field appearance="outline">
+                <mat-label>Birthday</mat-label>
+                <input [(ngModel)]="birthDate" [disabled]="loading" matInput [matDatepicker]="dp" required value="{{ user.birthDate | date }}">
+                <mat-hint>MM.DD.YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+                <mat-datepicker #dp></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field class="mr-16 wth-100" appearance="outline">
+                <mat-label>E-Mail</mat-label>
+                <input [(ngModel)]="user.email" [disabled]="loading" matInput placeholder="Valid E-Mail" required pattern="[a-zA-Z0-9\.!%_\+\-]{1,64}[@][a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,6}" value="{{ user.email }}">
+            </mat-form-field>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-button mat-dialog-close>Close</button>
+        <button mat-button [disabled]="loading" (click)="saveUser()">Save</button>
+    </mat-dialog-actions>
+</div>

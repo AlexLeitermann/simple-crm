@@ -1,4 +1,4 @@
-import { ApplicationConfig, Component, importProvidersFrom } from '@angular/core';
+import { ApplicationConfig, Component } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
