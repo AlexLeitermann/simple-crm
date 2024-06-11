@@ -14,8 +14,8 @@
         </div>
         <div class="mb-8">
             <mat-form-field appearance="outline">
-                <mat-label>Birthday</mat-label>
-                <input [(ngModel)]="birthDate" [disabled]="loading" matInput [matDatepicker]="dp" required value="{{ user.birthDate | date }}">
+                <mat-label>Birthday ({{ user.birthDate | date }})</mat-label>
+                <input [(ngModel)]="birthDate" [disabled]="loading" matInput [matDatepicker]="dp" required value="{{ user.birthDate | number }}">
                 <mat-hint>MM.DD.YYYY</mat-hint>
                 <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
                 <mat-datepicker #dp></mat-datepicker>

@@ -39,16 +39,12 @@ export class DialogEditUserComponent {
         private route: ActivatedRoute,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
-        this.userId = this.data.id || '';
-        const userDoc = doc(this.fs, `users/${this.userId}`);
-        this.user$ = docData(userDoc, { idField: 'id' }) as Observable<Item>;
+        this.userDetail = this.data || '';
     }
-    user = new User();
+    user!:Item;
     loading = false;
     birthDate = new Date;
-    userDetail: Item[] = [];
-    userId: string;
-    user$: Observable<Item | undefined>;
+    userDetail!: Item;
 
     saveUser() {
         this.dialogRef.close();

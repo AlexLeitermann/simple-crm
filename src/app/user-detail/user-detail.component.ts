@@ -28,7 +28,7 @@ import { DialogDeleteUserComponent } from '../dialog-delete-user/dialog-delete-u
     styleUrl: './user-detail.component.scss'
 })
 export class UserDetailComponent {
-    userDetail: Item[] = [];
+    userDetail!: Item;
     userId: string;
     user$: Observable<Item | undefined>;
 
@@ -37,14 +37,21 @@ export class UserDetailComponent {
         this.userId = this.route.snapshot.paramMap.get('id') || '';
         const userDoc = doc(this.fs, `users/${this.userId}`);
         this.user$ = docData(userDoc, { idField: 'id' }) as Observable<Item>;
+        this.user$.forEach(value => {
+            if (value) {
+                this.userDetail = value;
+                console.log('userDetail:', this.userDetail.birthDate);
+                
+            }
+        });
     }
 
     editUser()     {
         const dialogRef = this.dialog.open(DialogEditUserComponent, {
-            data: {
-                id: this.userId,
-            }
+            data: this.userDetail
         });
+
+        dialogRef.componentInstance.user = this.userDetail;
   
         dialogRef.afterClosed().subscribe((result: any) => {
             console.log('The dialog was closed', result);
@@ -53,9 +60,7 @@ export class UserDetailComponent {
     
     deleteUser()     {
         const dialogRef = this.dialog.open(DialogDeleteUserComponent, {
-            data: {
-                id: this.userId,
-            }
+            data: this.userDetail
         });
     
         dialogRef.afterClosed().subscribe((result: any) => {
@@ -65,9 +70,7 @@ export class UserDetailComponent {
     
     editAddress()     {
         const dialogRef = this.dialog.open(DialogEditAddressComponent, {
-            data: {
-                id: this.userId,
-            }
+            data: this.userDetail
         });
     
         dialogRef.afterClosed().subscribe((result: any) => {
