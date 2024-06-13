@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { doc, docData, Firestore } from '@angular/fire/firestore';
+import { collection, doc, docData, Firestore, onSnapshot, updateDoc } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Item } from '../interfaces/item';
 import { Observable } from 'rxjs';
@@ -12,6 +12,7 @@ import { DialogEditUserComponent } from '../dialog-edit-user/dialog-edit-user.co
 import { DialogEditAddressComponent } from '../dialog-edit-address/dialog-edit-address.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DialogDeleteUserComponent } from '../dialog-delete-user/dialog-delete-user.component';
+import { User } from '../../models/user.class';
 
 @Component({
     selector: 'app-user-detail',
@@ -29,39 +30,64 @@ import { DialogDeleteUserComponent } from '../dialog-delete-user/dialog-delete-u
 })
 export class UserDetailComponent {
     userDetail!: Item;
+    userSubDetail!: Item;
     userId: string;
-    user$: Observable<Item | undefined>;
-
+    // user$: Observable<Item | undefined>;
+    unsubDoc;
 
     constructor( public dialog: MatDialog, private fs: Firestore, private route: ActivatedRoute ){
         this.userId = this.route.snapshot.paramMap.get('id') || '';
-        const userDoc = doc(this.fs, `users/${this.userId}`);
-        this.user$ = docData(userDoc, { idField: 'id' }) as Observable<Item>;
-        this.user$.forEach(value => {
-            if (value) {
-                this.userDetail = value;
-                console.log('userDetail:', this.userDetail.birthDate);
-                
+        this.unsubDoc = onSnapshot(doc(this.fs, `users/${this.userId}`),(doc) =>{
+            if (doc.data()) {
+                this.userSubDetail = this.setUserObject(doc.data(), this.userId);
             }
-        });
+            console.log('CurData:', this.userSubDetail);
+        })
+        // this.user$ = docData(doc(this.fs, `users/${this.userId}`), { idField: 'id' }) as Observable<Item>;
+        // this.user$.forEach(value => {
+        //     if (value) {
+        //         this.userDetail = value;
+        //         console.log('userDetail:', this.userDetail.birthDate);
+                
+        //     }
+        // });
+    }
+
+    ngOnDestroy() {
+        this.unsubDoc();
     }
 
     editUser()     {
-        const dialogRef = this.dialog.open(DialogEditUserComponent, {
-            data: this.userDetail
-        });
+        const dialogRef = this.dialog.open(DialogEditUserComponent);
 
-        dialogRef.componentInstance.user = this.userDetail;
-  
+        dialogRef.componentInstance.user = new User(this.userSubDetail);
+        dialogRef.componentInstance.birthDate = new Date(this.userSubDetail.birthDate);
+        console.log('editUser - Birthdate: ', new Date(this.userSubDetail.birthDate));
+        
         dialogRef.afterClosed().subscribe((result: any) => {
             console.log('The dialog was closed', result);
+            if (result) {
+                console.info('result: true');
+                this.userSubDetail.birthDate = result.birthDate;
+                this.userSubDetail.firstName = result.firstName;
+                this.userSubDetail.lastName = result.lastName;
+                this.userSubDetail.email = result.email;
+                updateDoc(doc(this.fs, `users/${this.userId}`), {
+                    firstName: this.userSubDetail.firstName,
+                    lastName: this.userSubDetail.lastName,
+                    birthDate: this.userSubDetail.birthDate,
+                    email: this.userSubDetail.email,
+                }).then (() => {
+                    console.log('FB ist updated.');
+                });
+            } else {
+                console.info('result: false');
+            }
         });
     }
     
     deleteUser()     {
-        const dialogRef = this.dialog.open(DialogDeleteUserComponent, {
-            data: this.userDetail
-        });
+        const dialogRef = this.dialog.open(DialogDeleteUserComponent);
     
         dialogRef.afterClosed().subscribe((result: any) => {
             console.log('The dialog was closed', result);
@@ -69,13 +95,41 @@ export class UserDetailComponent {
     }
     
     editAddress()     {
-        const dialogRef = this.dialog.open(DialogEditAddressComponent, {
-            data: this.userDetail
-        });
+        const dialogRef = this.dialog.open(DialogEditAddressComponent);
+
+        dialogRef.componentInstance.user = new User(this.userSubDetail);
     
         dialogRef.afterClosed().subscribe((result: any) => {
             console.log('The dialog was closed', result);
+            if (result) {
+                console.info('result: true');
+                this.userSubDetail.address = result.address;
+                this.userSubDetail.zipCode = result.zipCode;
+                this.userSubDetail.city = result.city;
+                updateDoc(doc(this.fs, `users/${this.userId}`), {
+                    address: this.userSubDetail.address,
+                    zipCode: this.userSubDetail.zipCode,
+                    city: this.userSubDetail.city,
+                }).then (() => {
+                    console.log('FB ist updated.');
+                });
+            } else {
+                console.info('result: false');
+            }
         });
+    }
+
+    setUserObject(obj: any, id:string):Item {
+        return { 
+            id:id, 
+            address: obj.address || 'note', 
+            birthDate: obj.birthDate || 0, 
+            city: obj.city || '', 
+            email: obj.email || '',
+            firstName: obj.firstName || '',
+            lastName: obj.lastName || '',
+            zipCode: obj.zipCode || 0,
+        };
     }
 
 }

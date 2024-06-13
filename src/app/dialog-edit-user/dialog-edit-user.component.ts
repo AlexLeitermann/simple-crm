@@ -39,15 +39,18 @@ export class DialogEditUserComponent {
         private route: ActivatedRoute,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
-        this.userDetail = this.data || '';
+        // this.userDetail = this.data || '';
     }
     user!:Item;
     loading = false;
-    birthDate = new Date;
-    userDetail!: Item;
+    birthDate!: Date;
+    // userDetail!: Item;
 
     saveUser() {
-        this.dialogRef.close();
+        console.log('birthDate:', this.birthDate.valueOf() / 1000);
+        
+        this.user.birthDate = (this.birthDate.valueOf() / 1);
+        this.dialogRef.close(this.user);
 
     }
 }

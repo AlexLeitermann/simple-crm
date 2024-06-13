@@ -1,4 +1,4 @@
-<div *ngIf="user$ | async as user">
+<div *ngIf="userSubDetail">
     <mat-card class="user-detail-header" color="primary">
         <button class="option" mat-icon-button matTooltip="Basic" [matMenuTriggerFor]="menuUser">
             <mat-icon>more_vert</mat-icon>
@@ -10,8 +10,8 @@
         <mat-card-content class="user-detail-header-content">
             <img class="user-detail-avatar" src="/assets/img/man_1_round.png">
             <div class="user-detail-name">
-                <h2>{{ user.firstName }} {{ user.lastName }}</h2>
-                {{ user.email }}<br>{{ user.birthDate | date }}
+                <h2>{{ userSubDetail.firstName }} {{ userSubDetail.lastName }}</h2>
+                {{ userSubDetail.email }}<br>{{ userSubDetail.birthDate | date }}
             </div>
         </mat-card-content>
     </mat-card>
@@ -26,8 +26,8 @@
             <mat-card-title>Address</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-            {{ user.address }}<br>
-            {{ user.zipCode }} {{ user.city }} <br>
+            {{ userSubDetail.address }}<br>
+            {{ userSubDetail.zipCode }} {{ userSubDetail.city }} <br>
         </mat-card-content>
     </mat-card>
 </div>

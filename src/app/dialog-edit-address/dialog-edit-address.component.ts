@@ -39,7 +39,7 @@ export class DialogEditAddressComponent {
         private route: ActivatedRoute,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
-        this.user = this.data || '';
+        // this.user = this.data || '';
     }
     user!: Item;
     loading = false;
@@ -47,7 +47,7 @@ export class DialogEditAddressComponent {
     userDetail!: Item;
 
     saveUser() {
-        this.dialogRef.close();
+        this.dialogRef.close(this.user);
 
     }
 }
