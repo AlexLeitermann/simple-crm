@@ -1,4 +1,4 @@
-import { Component, Inject, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent, MatDialogModule, MatDialogRef, } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -27,13 +27,15 @@ import { CommonModule } from '@angular/common';
         MatProgressBarModule,
         CommonModule,
     ],
-    providers: [],
+    providers: [
+        { provide: MatDialogRef }
+    ],
     templateUrl: './dialog-add-user.component.html',
     styleUrl: './dialog-add-user.component.scss'
 })
 export class DialogAddUserComponent {
     constructor(
-        public dialogRef: MatDialogRef<DialogAddUserComponent>
+        private dialogRef: MatDialogRef<DialogAddUserComponent>
     ) {}
 
     loading = false;
@@ -49,7 +51,7 @@ export class DialogAddUserComponent {
         await addDoc(collection(this.fs, 'users'), this.userToJSON())
             .catch(
                 (err) => { console.error(err) }
-            ).then((docRef) => { 
+            ).then(() => { 
                 this.loading = false;
                 console.log('user', this.user); 
                 this.dialogRef.close();

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
-import { doc, docData, Firestore, FirestoreModule } from '@angular/fire/firestore';
+import { FirestoreModule } from '@angular/fire/firestore';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -9,10 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { User } from '../../models/user.class';
 import { Item } from '../interfaces/item';
-import { Observable } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-dialog-edit-address',
@@ -35,8 +32,6 @@ import { ActivatedRoute } from '@angular/router';
 export class DialogEditAddressComponent {
     constructor(
         public dialogRef: MatDialogRef<DialogEditAddressComponent>, 
-        private fs: Firestore,
-        private route: ActivatedRoute,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
         // this.user = this.data || '';

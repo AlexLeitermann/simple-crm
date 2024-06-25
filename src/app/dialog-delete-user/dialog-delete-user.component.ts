@@ -27,12 +27,15 @@ import { User } from '../../models/user.class';
         MatProgressBarModule,
         CommonModule,
     ],
+    providers: [
+        MatDialogRef
+    ],
     templateUrl: './dialog-delete-user.component.html',
     styleUrl: './dialog-delete-user.component.scss'
 })
 export class DialogDeleteUserComponent {
     constructor(
-        public dialogRef: MatDialogRef<DialogDeleteUserComponent>
+        private dialogRef: MatDialogRef<DialogDeleteUserComponent>
     ) {}
     user = new User();
     loading = false;

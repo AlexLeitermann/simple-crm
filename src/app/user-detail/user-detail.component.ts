@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { collection, doc, docData, Firestore, onSnapshot, updateDoc } from '@angular/fire/firestore';
-import { ActivatedRoute, Router } from '@angular/router';
+import { doc, Firestore, FirestoreModule, onSnapshot, updateDoc } from '@angular/fire/firestore';
+import { ActivatedRoute } from '@angular/router';
 import { Item } from '../interfaces/item';
-import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -20,6 +19,7 @@ import { User } from '../../models/user.class';
     imports: [
         MatCardModule,
         MatButtonModule,
+        FirestoreModule,
         CommonModule,
         MatDialogModule,
         MatIconModule,
@@ -32,10 +32,10 @@ export class UserDetailComponent {
     userDetail!: Item;
     userSubDetail!: Item;
     userId: string;
-    // user$: Observable<Item | undefined>;
+    fs: Firestore = inject(Firestore);
     unsubDoc;
 
-    constructor( public dialog: MatDialog, private fs: Firestore, private route: ActivatedRoute ){
+    constructor( public dialog: MatDialog, private route: ActivatedRoute ){
         this.userId = this.route.snapshot.paramMap.get('id') || '';
         this.unsubDoc = onSnapshot(doc(this.fs, `users/${this.userId}`),(doc) =>{
             if (doc.data()) {
@@ -43,14 +43,6 @@ export class UserDetailComponent {
             }
             console.log('CurData:', this.userSubDetail);
         })
-        // this.user$ = docData(doc(this.fs, `users/${this.userId}`), { idField: 'id' }) as Observable<Item>;
-        // this.user$.forEach(value => {
-        //     if (value) {
-        //         this.userDetail = value;
-        //         console.log('userDetail:', this.userDetail.birthDate);
-                
-        //     }
-        // });
     }
 
     ngOnDestroy() {

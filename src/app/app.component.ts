@@ -4,6 +4,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatNativeDateModule } from '@angular/material/core';
+// import { BrowserModule } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-root',
@@ -15,6 +16,7 @@ import { MatNativeDateModule } from '@angular/material/core';
         MatIconModule,
         MatSidenavModule,
         MatNativeDateModule,
+        // BrowserModule,
     ],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'

@@ -3,10 +3,10 @@ import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { DialogAddUserComponent } from '../dialog-add-user/dialog-add-user.component';
 import { User } from '../../models/user.class';
-import { collection, collectionData, DocumentData, Firestore, FirestoreModule, onSnapshot } from '@angular/fire/firestore';
+import { collection, Firestore, FirestoreModule, onSnapshot } from '@angular/fire/firestore';
 import { MatCardModule } from '@angular/material/card';
 import { RouterLink } from '@angular/router';
 import { Item } from '../interfaces/item';
@@ -24,6 +24,12 @@ import { Item } from '../interfaces/item';
         MatCardModule,
         RouterLink,
     ],
+    providers: [
+       {
+         provide: MatDialogRef,
+         useValue: {}
+       }
+    ],
     templateUrl: './user.component.html',
     styleUrl: './user.component.scss'
 })
@@ -32,7 +38,7 @@ export class UserComponent {
     fs: Firestore = inject(Firestore);
     allUsers: Item[] = [];
 
-    constructor( public dialog: MatDialog ) {
+    constructor( public dialogRef: MatDialogRef<DialogAddUserComponent>, public dialog: MatDialog ) {
         const aCollection = collection(this.fs, 'users');
 
         onSnapshot(aCollection, (snapshot) => {
@@ -52,9 +58,9 @@ export class UserComponent {
     }
 
     openDialog(): void {
-        const dialogRef = this.dialog.open(DialogAddUserComponent);
+        this.dialogRef = this.dialog.open(DialogAddUserComponent);
   
-        dialogRef.afterClosed().subscribe(result => {
+        this.dialogRef.afterClosed().subscribe(result => {
             console.log('The dialog was closed', result);
         });
     }

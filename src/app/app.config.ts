@@ -25,15 +25,6 @@ export const appConfig: ApplicationConfig = {
         })),
         provideFirestore(() => getFirestore()),
     
-        // importProvidersFrom(provideFirebaseApp(() => initializeApp({
-        //     "projectId":"ringoffire-799bf",
-        //     "appId":"1:609686268861:web:380f921b38fed7c4b240d4",
-        //     "storageBucket":"ringoffire-799bf.appspot.com",
-        //     "apiKey":"AIzaSyDNNYP7E_s8EG-AebmCOnGlFxqgz_CkTIA",
-        //     "authDomain":"ringoffire-799bf.firebaseapp.com",
-        //     "messagingSenderId":"609686268861"
-        // }))), 
-        // importProvidersFrom(provideFirestore(() => getFirestore()))
         ]
 };
 
